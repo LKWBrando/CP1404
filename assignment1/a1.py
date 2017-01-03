@@ -1,3 +1,9 @@
+def menu_Input(menuInput):
+    while menuInput not in menuInputList:
+        print("Invalid Option. Please enter an option from the menu.")
+        menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
+
+
 def required_books():
     print("Required books:")
     required_pageCount = 0
@@ -21,6 +27,19 @@ def completed_books():
             print("{:<1}.{:<40s}by {:<20s} {:<4}pages".format(i, book[0], book[1], book[2]))
     print("Total pages for {} book(s):{}".format(completed_bookCount, completed_pageCount))
 
+def marking_books():
+    checker1 = True
+    while checker1:
+        try:
+            mark_book = int(input("Enter the number of a book to mark as completed."))
+            while mark_book > (len(bookList) - 1):
+                print("Error, number not in list.")
+                mark_book = int(input("Enter the number of a book to mark as completed."))
+            checker1 = False
+        except ValueError:
+            print("Invalid format; enter a valid number.")
+    return mark_book
+
 print("Reading List v 1.0 by Brandon Lum")
 
 bookList = []
@@ -34,24 +53,34 @@ print(bookList)
 
 menuInputList = ['r', 'c', 'a' ,'m', 'q']
 menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
-while menuInput not in menuInputList:
-    print("Invalid Option. Please enter an option from the menu.")
-    menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
+menu_Input(menuInput)
 
-if menuInput == 'r':
-    required_books()
+while menuInput in menuInputList:
 
-elif menuInput == 'c':
-    completed_books()
+    if menuInput == 'r':
+        required_books()
+        menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
+        menu_Input(menuInput)
 
-elif menuInput == 'm':
-    required_books()
-    markingCondition = False
-    while markingCondition:
-        try:
-            mark_book = int(input("Enter the number of a book to mark as completed."))
-            while bookList[mark_book]
-            markingCondition = True
-        except ValueError:
-            print("Invalid input; enter a valid number.")
-    print(bookList[mark_book])
+    elif menuInput == 'c':
+        completed_books()
+        menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
+        menu_Input(menuInput)
+
+    elif menuInput == 'm':
+        required_books()
+        mark_book = marking_books()
+
+        if bookList[mark_book][3] == 'r':
+            print("{:<40s} by {:<20s} marked as completed".format(bookList[mark_book][0], bookList[mark_book][1]))
+            bookList[mark_book].pop(3)
+            bookList[mark_book].insert(3,'c')
+        else:
+            print("That book is already completed")
+        menuInput = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
+        menu_Input(menuInput)
+
+    elif menuInput == 'a':
+        title_Input = input(str("Title:"))
+        author_Input
+
