@@ -15,10 +15,10 @@ def required_books():
         if book[3] == 'r':
             required_pageCount = required_pageCount + int(book[2])
             required_bookCount = required_bookCount + 1
+            print("{:<1}. {:<40s} by {:<20s} {:<4}pages".format(i, book[0], book[1], book[2]))
     if required_bookCount == 0:
         print("No required books")
     else:
-        print("{:<1}. {:<40s} by {:<20s} {:<4}pages".format(i, book[0], book[1], book[2]))
         print("Total pages for {} book(s):{}".format(required_bookCount, required_pageCount))
 
 
@@ -45,16 +45,17 @@ def marking_books():
             print("Invalid format; enter a valid number.")
     return mark_book
 
-
 print("Reading List v 1.0 by Brandon Lum")
 
 bookList = []
-bookFile = open("books.csv", "r+")
+bookFile = open("books.csv", "r")
 for line, data in enumerate(bookFile.readlines()):
     lineIndex = data.strip()
     lineData = lineIndex.split(",")
     bookList.append(lineData)
-bookList.sort(key=itemgetter(2))
+bookFile.close()
+bookList.sort(key=itemgetter(1,2))
+print(bookList)
 print("{} books loaded from books.csv".format(len(bookList)))
 
 menuInputList = ['r', 'c', 'a', 'm', 'q']
@@ -106,11 +107,16 @@ while menuInput in menuInputList:
 
         lineData = list((title_Input, author_Input, page_Input, 'r'))
         bookList.append(lineData)
+        bookList.sort(key=itemgetter(1,2))
         print("{} by {}, ({} pages) added to reading list".format((title_Input),(author_Input),(page_Input)))
         menuInput = menu_Input()
 
     else:
-        bookFile.close()
+        fileEdit = open("books.csv", "w")
+        for line in bookList:
+            for i in line:
+
+        fileEdit.close()
         menuInput = 'e'
 
 print("{} books saved to books.csv".format(len(bookList)))
