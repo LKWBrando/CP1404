@@ -1,3 +1,9 @@
+"""
+CP1404 Assignment One
+Done by: Lum Kwan Wei Brandon
+https://github.com/LKWBrando/CP1404/tree/master/assignment1 (Private repository)
+"""
+
 from operator import itemgetter
 
 def loading_books():
@@ -34,7 +40,7 @@ def menu_input():
     """
     menu_option = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
     while menu_option not in menu_option_list:
-        print("Invalid Option. Please enter an option from the menu.")
+        print("Invalid menu choice")
         menu_option = str(input("Menu:\n R - List required books\n C - List completed books\n A - Add new book\n M - Mark a book as completed\n Q - Quit\n")).lower()
     return menu_option
 
@@ -48,6 +54,7 @@ def required_books():
     print("Required books:")
     required_page_count = 0
     required_book_count = 0
+    req_counter = 1
     for index, book in enumerate(book_list):
         if book[3] == 'r':
             required_page_count += int(book[2])
@@ -55,8 +62,11 @@ def required_books():
             print("{:<1}. {:<40s} by {:<20s} {:<4}pages".format(index, book[0], book[1], book[2]))
     if required_book_count == 0:
         print("No required books")
+        req_counter = 0
+        return req_counter
     else:
         print("Total pages for {} book(s):{}".format(required_book_count, required_page_count))
+        return req_counter
 
 
 def completed_books():
@@ -86,7 +96,9 @@ def marking_books():
     while mark_book is more than the number of values in book_list then:
         print("Error, number not in list")
         get value for mark_book
-    if value for position [3] of the value based on position of [mark_book] of the book_list is equals to 'r'
+    if required book_count = 0
+        return null
+    else if value for position [3] of the value based on position of [mark_book] of the book_list is equals to 'r'
         print book is marked as completed, with corresponding book_list values
         remove value for position [3] of the value based on position of [mark_book] of the book_list
         insert value of 'c' into position [3] of the data based on position of [mark_book] of the book_list
@@ -102,10 +114,10 @@ def marking_books():
                 mark_book = int(input("Enter the number of a book to mark as completed."))
             break
         except ValueError:
-            print("Invalid format; enter a valid number.")
+            print("Invalid input; enter a valid number.")
 
     if book_list[mark_book][3] == 'r':
-        print("{:<40s} by {:<20s} marked as completed".format(book_list[mark_book][0], book_list[mark_book][1]))
+        print("{} by {} marked as completed".format(book_list[mark_book][0], book_list[mark_book][1]))
         book_list[mark_book].pop(3)
         book_list[mark_book].insert(3, 'c')
     else:
@@ -154,10 +166,11 @@ loading_books()
 menu_option_list = ['r', 'c', 'a', 'm', 'q']
 menu_option = menu_input()
 
+req_book_counter = 1
 while menu_option in menu_option_list:
 
     if menu_option == 'r':
-        required_books()
+        req_book_counter = required_books()
         menu_option = menu_input()
 
     elif menu_option == 'c':
@@ -165,16 +178,14 @@ while menu_option in menu_option_list:
         menu_option = menu_input()
 
     elif menu_option == 'm':
-        required_books()
-        mark_book = marking_books()
-
-
+        req_book_counter = required_books()
+        if req_book_counter == 1:
+            marking_books()
         menu_option = menu_input()
 
     elif menu_option == 'a':
         adding_books()
         menu_option = menu_input()
-
 
     else:
         fileEdit = open("books.csv", "w")
@@ -182,9 +193,9 @@ while menu_option in menu_option_list:
         for line in book_list:
             for i in line:
                 if dataLine == '':
-                    dataLine = i
+                    dataLine = str(i)
                 else:
-                    dataLine = dataLine + ',' + i
+                    dataLine = (str(dataLine) + ',' + str(i))
             fileEdit.write(dataLine + '\n')
             dataLine = ''
         fileEdit.close()
