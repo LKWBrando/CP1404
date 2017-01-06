@@ -1,6 +1,17 @@
 """
 CP1404 Assignment One
 Done by: Lum Kwan Wei Brandon
+Student number: 13379339
+Program details:
+    Program loads values from the given file, books.csv into a temporary list
+    Displays a menu, listing available options that the user can input
+    Depending on the user input the program will;
+        Display the list of books that are required to be read
+        Display the list of books that have been completed
+        Display the list of books that are required to be read, then allows the user to change a book status to completed
+        Allow the user to input a book, along with it's details
+        Exit the program, saving and overwriting the original file, books.csv, with the updated values based on the temporary list.
+Github link:
 https://github.com/LKWBrando/CP1404/tree/master/assignment1 (Private repository)
 """
 
@@ -9,7 +20,6 @@ from operator import itemgetter
 def loading_books():
     """
     A function that reads the file, extracts the data and formats it, then appends it into a local variable
-
     pseudocode:
     open file 'books.csv'
     read values from file 'books.csv'
@@ -20,7 +30,6 @@ def loading_books():
     close file 'books.csv'
     sort book_list values based on author, then pages
     print number of books loaded from 'books.csv' based on length of book_list(number of values)
-
     :return:
     """
     bookFile = open("books.csv", "r")
@@ -31,7 +40,6 @@ def loading_books():
     bookFile.close()
     book_list.sort(key=itemgetter(1, 2))
     print("{} books loaded from books.csv".format(len(book_list)))
-
 
 def menu_input():
     """
@@ -49,7 +57,7 @@ def required_books():
     A function that runs through the list, book_list, to determine if the book is marked as required.
     :param required_page_count: A variable that is used to calculate the total amount of pages based on the required books.
     :param required_book_count: A variable that is used to calculate the total count of required books.
-    :return:
+    :return req_counter: An integer value used to determine if there are any required books left
     """
     print("Required books:")
     required_page_count = 0
@@ -67,7 +75,6 @@ def required_books():
     else:
         print("Total pages for {} book(s):{}".format(required_book_count, required_page_count))
         return req_counter
-
 
 def completed_books():
     """
@@ -103,7 +110,6 @@ def marking_books():
         remove value for position [3] of the value based on position of [mark_book] of the book_list
         insert value of 'c' into position [3] of the data based on position of [mark_book] of the book_list
     else print (" That book is already completed")
-
     :return:
     """
     while True:
@@ -157,6 +163,24 @@ def adding_books():
     book_list.sort(key=itemgetter(1, 2))
     print("{} by {}, ({} pages) added to reading list".format((title_input), (author_input), (page_input)))
 
+def save_file():
+    """
+    A function that saves and overwrites the file, books.csv, with the values from book_list
+    :return:
+    """
+    file_edit = open("books.csv", "w")
+    data_line = ''
+    for line in book_list:
+        for value in line:
+            if data_line == '':
+                data_line = str(value)
+            else:
+                data_line = (str(data_line) + ',' + str(value))
+        file_edit.write(data_line + '\n')
+        data_line = ''
+    file_edit.close()
+
+#Start of program
 
 print("Reading List v 1.0 by Brandon Lum")
 
@@ -188,17 +212,7 @@ while menu_option in menu_option_list:
         menu_option = menu_input()
 
     else:
-        fileEdit = open("books.csv", "w")
-        dataLine = ''
-        for line in book_list:
-            for i in line:
-                if dataLine == '':
-                    dataLine = str(i)
-                else:
-                    dataLine = (str(dataLine) + ',' + str(i))
-            fileEdit.write(dataLine + '\n')
-            dataLine = ''
-        fileEdit.close()
+        save_file()
         menu_option = 'e'
 
 print("{} books saved to books.csv".format(len(book_list)))
