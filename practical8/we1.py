@@ -80,15 +80,16 @@ class UnreliableCar(Car):
 
 class SilverServiceTaxi(Taxi):
 
-    def __init__(self, name, fuel, distance):
-        super().__init__(self, name, fuel)
-        self.distance = distance
-        self.fanciness = 2
+    def __init__(self, name, fuel, fanciness, price_per_km =1.2):
+        super().__init__(name, fuel, price_per_km)
+        self.price_per_km = fanciness * 1.2
         self.flagfall = 4.5
+        self.current_fare_distance = 0
 
     def get_fare(self):
-        return (self.price_per_km * self.distance * self.fanciness) + self.flagfall
+        return (self.price_per_km * self.current_fare_distance) + self.flagfall
 
+"""
 prius1 = Taxi("Prius1", 100, 1.2)
 prius1.drive(40)
 print(prius1)
@@ -103,5 +104,8 @@ prius2 = UnreliableCar("Prius2", 100, 10)
 prius2.drive(50)
 print(prius2)
 
-prius3 = SilverServiceTaxi("Prius3", 100, 10)
+prius3 = SilverServiceTaxi("Prius3", 100, 2)
+print(prius3)
+prius3.drive(10)
 print(prius3.get_fare())
+"""
