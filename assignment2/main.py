@@ -1,5 +1,5 @@
 """
-Name:
+Name:Lum Kwan Wei Brandon
 Date:
 Brief Project Description:
 GitHub URL:
@@ -17,9 +17,11 @@ book_list = BookList()
 req_counter = 1
 
 class ReadingListApp(App):
+
     def build(self):
         self.title = "Reading list application"
         self.root = Builder.load_file("app.kv")
+        self.on_required()
         return self.root
 
     def on_required(self):
@@ -32,12 +34,12 @@ class ReadingListApp(App):
                 required_book_count += 1
                 book_text = book[0]
                 temp_button = Button(text = book_text)
-                temp_button.bind(on_press=lambda x: self.mark(index))
-                temp_button.bind(on_release=lambda x:self.root.ids.entriesBox.remove_widget(temp_button))
+                temp_button.bind(on_press=lambda x: self.mark(book_text))
+                temp_button.bind(on_release=lambda x:self.root.ids.entriesBox.remove_widget(temp_button) )
                 self.root.ids.entriesBox.add_widget(temp_button)
         if required_book_count == 0:
-            temp_button = Button(text ="No required books")
-            temp_button.bind(on_release=self.press)
+            self.root.ids.display_pages.text = ("All books completed")
+            self.root.ids.display_text.text = ("All books completed")
             req_counter = 0
             return req_counter
         else:
@@ -45,10 +47,16 @@ class ReadingListApp(App):
             self.root.ids.display_text.text = ("Click books to mark them as completed")
             return req_counter
 
-    def mark(self, index):
-        book_list[index].pop(3)
-        book_list[index].insert(3, 'c')
+    def mark(self, book_text):
+        for index, book in enumerate(book_list):
+            if book[0] == book_text:
+                book_list[index].pop(3)
+                book_list[index].insert(3, 'c')
+        self.reset()
 
+    def reset(self):
+        self.clear_all()
+        self.on_required()
 
     def on_completed(self):
         completed_page_count = 0
@@ -71,9 +79,7 @@ class ReadingListApp(App):
         book_list.add_book(self.input_title, self.input_author, self.input_pages)
         self.temp_button = Button(text=("{:<40s} by {:<20} {}pages".format(self.input_title, self.input_author, self.input_pages)))
         self.root.ids.entriesBox.add_widget(self.temp_button)
-        self.root.ids.input_title.text = ""
-        self.root.ids.input_author.text = ""
-        self.root.ids.input_pages.text = ""
+        self.clear_fields()
         return book_list
 
     def press(self, instance):
@@ -82,8 +88,12 @@ class ReadingListApp(App):
     def remove_stuff(self):
         self.remove_widget(self)
 
+    def clear_fields(self):
+        self.root.ids.input_title.text = ""
+        self.root.ids.input_author.text = ""
+        self.root.ids.input_pages.text = ""
+
     def clear_all(self):
         self.root.ids.entriesBox.clear_widgets()
-
 
 ReadingListApp().run()
