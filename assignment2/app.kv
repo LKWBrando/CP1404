@@ -1,0 +1,31 @@
+# create your Kivy layout in the kv language here
+BoxLayout:
+    BoxLayout:
+        orientation: "vertical"
+        size_hint_x: 0.3
+        Button:
+            text: "List required"
+        Button:
+            text: "List completed"
+        Button:
+            text: "Add new book..."
+        Label
+            text: "Title:"
+        TextInput
+            id: input_title
+            #on_text:
+        Label
+            text: "Author:"
+        TextInput
+            id: input_author
+        Label
+            text: "Pages:"
+        TextInput
+            id: input_pages
+        Button:
+            text: "Add items"
+        Button:
+            text: "Clear"
+    BoxLayout:
+        orientation: "vertical"
+        id: entriesBox
