@@ -13,23 +13,34 @@ BoxLayout:
             on_release: app.on_completed()
         Button:
             text: "Add new book..."
+            on_release: app.save_book(input_title.text, input_author.text, input_pages.text)
         Label
             text: "Title:"
         TextInput
             id: input_title
-            #on_text:
+            text:""
         Label
             text: "Author:"
         TextInput
             id: input_author
+            text:""
         Label
             text: "Pages:"
         TextInput
             id: input_pages
+            text:""
         Button:
             text: "Add items"
         Button:
             text: "Clear"
     BoxLayout:
         orientation: "vertical"
-        id: entriesBox
+        Label
+            id: display_pages
+            text: ""
+        BoxLayout
+            orientation: "vertical"
+            id: entriesBox
+        Label
+            id: display_text
+            text: ""
