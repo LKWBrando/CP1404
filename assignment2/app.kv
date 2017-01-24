@@ -5,8 +5,12 @@ BoxLayout:
         size_hint_x: 0.3
         Button:
             text: "List required"
+            on_press: app.clear_all()
+            on_release: app.on_required()
         Button:
             text: "List completed"
+            on_press: app.clear_all()
+            on_release: app.on_completed()
         Button:
             text: "Add new book..."
         Label
