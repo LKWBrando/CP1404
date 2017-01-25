@@ -22,6 +22,12 @@ class BookList:
         line_data = list((self.title, self.author, self.pages, 'r'))
         self.book_list.append(line_data)
 
+    def get_book(self, book_title):
+        self.book_title = book_title
+        for index, book in (self.book_list):
+            if book[0] == self.book_title:
+                print("{} by {} , {}pages (Completed)".format(book[0], book[1], book[2]))
 
 #self.booklists.append(book)
+
 

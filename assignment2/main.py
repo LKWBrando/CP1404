@@ -34,8 +34,9 @@ class ReadingListApp(App):
                 required_book_count += 1
                 book_text = book[0]
                 temp_button = Button(text = book_text)
-                temp_button.bind(on_press=lambda x: self.mark(book_text))
-                temp_button.bind(on_release=lambda x:self.root.ids.entriesBox.remove_widget(temp_button) )
+                #temp_button.bind(on_press=lambda x: self.mark(book_text))
+                temp_button.bind(on_press=self.mark)
+                #temp_button.bind(on_release=self.root.ids.entriesBox.remove_widget(temp_button) )
                 self.root.ids.entriesBox.add_widget(temp_button)
         if required_book_count == 0:
             self.root.ids.display_pages.text = ("All books completed")
@@ -47,11 +48,13 @@ class ReadingListApp(App):
             self.root.ids.display_text.text = ("Click books to mark them as completed")
             return req_counter
 
-    def mark(self, book_text):
-        for index, book in enumerate(book_list):
-            if book[0] == book_text:
-                book_list[index].pop(3)
-                book_list[index].insert(3, 'c')
+    def mark(self, instance):
+        book_text=instance.text
+        for book in book_list:
+            for item in book:
+                if item == book_text:
+                    book.pop(3)
+                    book.insert(3,'c')
         self.reset()
 
     def reset(self):
@@ -65,11 +68,19 @@ class ReadingListApp(App):
             if book[3] == 'c':
                 completed_page_count += int(book[2])
                 completed_book_count += 1
-                temp_button = Button(text=("{}".format(book[0])))
-                temp_button.bind(on_release=self.press)
+                book_text = book[0]
+                temp_button = Button(text=("{}".format(book_text)))
+                temp_button.bind(on_release=self.book_details)
                 self.root.ids.entriesBox.add_widget(temp_button)
-        self.root.ids.display_pages.text = ("Total pages for {} book(s):{}".format(completed_book_count, completed_page_count))
+        self.root.ids.display_pages.text = ("Total pages completed:{}".format(completed_page_count))
         self.root.ids.display_text.text = ("Click on a book for more information")
+
+    def book_details(self, instance):
+        self.clear_display_text()
+        book_text = instance.text
+        for index, book in enumerate(book_list):
+            if book[0] == book_text:
+                self.root.ids.display_text.text = ("{} by {} , {}pages (Completed)".format(book[0], book[1], book[2]))
 
 
     def save_book(self, input_title, input_author, input_pages):
@@ -82,11 +93,11 @@ class ReadingListApp(App):
         self.clear_fields()
         return book_list
 
-    def press(self, instance):
-        pass
-
     def remove_stuff(self):
         self.remove_widget(self)
+
+    def clear_display_text(self):
+        self.root.ids.display_text.text = ""
 
     def clear_fields(self):
         self.root.ids.input_title.text = ""
