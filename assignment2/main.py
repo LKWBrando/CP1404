@@ -11,7 +11,6 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.properties import StringProperty
-from operator import itemgetter
 
 book_list = BookList()
 req_counter = 1
@@ -34,9 +33,7 @@ class ReadingListApp(App):
                 required_book_count += 1
                 book_text = book[0]
                 temp_button = Button(text = book_text)
-                #temp_button.bind(on_press=lambda x: self.mark(book_text))
                 temp_button.bind(on_press=self.mark)
-                #temp_button.bind(on_release=self.root.ids.entriesBox.remove_widget(temp_button) )
                 self.root.ids.entriesBox.add_widget(temp_button)
         if required_book_count == 0:
             self.root.ids.display_pages.text = ("All books completed")
@@ -57,9 +54,7 @@ class ReadingListApp(App):
                     book.insert(3,'c')
         self.reset()
 
-    def reset(self):
-        self.clear_all()
-        self.on_required()
+
 
     def on_completed(self):
         completed_page_count = 0
@@ -82,19 +77,15 @@ class ReadingListApp(App):
             if book[0] == book_text:
                 self.root.ids.display_text.text = ("{} by {} , {}pages (Completed)".format(book[0], book[1], book[2]))
 
-
     def save_book(self, input_title, input_author, input_pages):
         self.input_title = str(input_title)
         self.input_author = str(input_author)
         self.input_pages = int(input_pages)
         book_list.add_book(self.input_title, self.input_author, self.input_pages)
-        self.temp_button = Button(text=("{:<40s} by {:<20} {}pages".format(self.input_title, self.input_author, self.input_pages)))
-        self.root.ids.entriesBox.add_widget(self.temp_button)
+        self.temp_button = Button(text=("{}".format(self.input_title)))
+        self.on_required()
         self.clear_fields()
         return book_list
-
-    def remove_stuff(self):
-        self.remove_widget(self)
 
     def clear_display_text(self):
         self.root.ids.display_text.text = ""
@@ -103,6 +94,10 @@ class ReadingListApp(App):
         self.root.ids.input_title.text = ""
         self.root.ids.input_author.text = ""
         self.root.ids.input_pages.text = ""
+
+    def reset(self):
+        self.clear_all()
+        self.on_required()
 
     def clear_all(self):
         self.root.ids.entriesBox.clear_widgets()
