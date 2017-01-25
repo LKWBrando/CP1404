@@ -76,12 +76,14 @@ class ReadingListApp(App):
         self.input_title = str(input_title)
         self.input_author = str(input_author)
         self.input_pages = str(input_pages)
-        if self.input_title.isspace() or self.input_author.isspace() or input_pages.isspace():
+        if self.input_title.isspace() or input_title == "" or self.input_author.isspace() or input_author == "" or input_pages.isspace() or input_pages =="":
+            self.clear_fields()
+            self.clear_all()
+            self.on_required()
             self.root.ids.display_text.text = "All fields must be completed"
         else:
             try:
-                if int(self.input_pages) <= 0:
-                    self.root.ids.display_text.text = 'Please enter a valid number'
+                if int(self.input_pages) >= 0:
                     book_details = Book(self.input_title, self.input_author, self.input_pages, 'r')
                     self.book_list.add_book(book_details)
                     self.temp_button = Button(text=("{}".format(self.input_title)))
