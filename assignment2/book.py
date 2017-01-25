@@ -1,4 +1,3 @@
-# create your simple Book class in this file
 class Book:
     def __init__(self, title="", author="", pages=0, status=""):
         self.title = title
@@ -10,6 +9,11 @@ class Book:
         return "{} by {}, total pages is {}.".format(self.title, self.author, self.pages)
 
     def book_length(self):
+        """
+        Simple method used to determine which colour button, green or yellow,
+        to be displayed based on the number of pages
+        :return:string value of 'green' or 'yellow
+        """
         if self.pages <= 300:
             colour_code = 'green'
         else:
@@ -17,6 +21,10 @@ class Book:
         return colour_code
 
     def mark_book(self):
+        """
+        Simple method used to change the status of a required book to completed.
+        :return:
+        """
         self.status = 'c'
 
 
