@@ -10,7 +10,7 @@ class Book:
 
     def book_length(self):
         """
-        Simple method used to determine which colour button, green or yellow,
+        Simple method used to determine which colour button, green(short) or yellow(long),
         to be displayed based on the number of pages
         :return:string value of 'green' or 'yellow
         """
@@ -23,7 +23,6 @@ class Book:
     def mark_book(self):
         """
         Simple method used to change the status of a required book to completed.
-        :return:
         """
         self.status = 'c'
 

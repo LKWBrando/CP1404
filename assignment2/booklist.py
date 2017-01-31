@@ -21,7 +21,7 @@ class BookList:
         """
         Method to determine index of the book in the book_list based on the title of the book
         :param book_text:
-        :return:
+        :return book(the index):
         """
         for book in self.book_list:
             if book_text == book.title :
@@ -30,15 +30,12 @@ class BookList:
     def add_book(self, book_details):
         """
         Method to append the book details into the book_list
-        :param book_details:
-        :return:
         """
         self.book_list.append(book_details)
 
     def save_file(self):
         """
         Method used to save books from book_list into csv file (books.csv)
-        :return:
         """
         bookFile = open("books.csv", "w")
         for book in self.book_list:

@@ -6,6 +6,8 @@ Brief Project Description:
 Reading list application.
 As per assignment instructions, this file contains a program that creates a GUI when run.
 Users will be able to select books to mark as completed and completed book details by clicking corresponding buttons.
+Users will also be able to add books by inputing the details into the text fields.
+Upon exit, the details of the books and any changes will be saved in the books.csv file.
 
 GitHub URL: https://github.com/LKWBrando/CP1404/tree/master/assignment2 (private repository)
 """
@@ -161,6 +163,4 @@ class ReadingListApp(App):
         """
         self.root.ids.book_list_box.clear_widgets()
 
-
 ReadingListApp().run()
-
